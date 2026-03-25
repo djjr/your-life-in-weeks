@@ -67,7 +67,10 @@ function clampInt(n, lo, hi) {
 }
 
 const args = parseArgs(process.argv);
-const vault = args.vault ? path.resolve(String(args.vault)) : null;
+const vaultArg = args.vault ? String(args.vault) : null;
+const vault = vaultArg
+  ? path.resolve(vaultArg.startsWith("~") ? path.join(process.env.HOME, vaultArg.slice(1)) : vaultArg)
+  : null;
 const outPath = args.out ? path.resolve(String(args.out)) : path.resolve("./weeks-index.json");
 const birthdateStr = args.birthdate ? String(args.birthdate) : null;
 

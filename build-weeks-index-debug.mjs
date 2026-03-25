@@ -3,7 +3,6 @@ import path from "node:path";
 import process from "node:process";
 import matter from "gray-matter";
 import { globSync } from "glob";
-import e from "cors";
 
 /**
  * Usage examples:
