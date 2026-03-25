@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>This Is Your Life In Weeks</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    #container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .decade-label {
+      margin: 4px 0 0 0;
+      font-size: 12px;
+      color: #666;
+    }
+    #grid {
+      display: grid;
+      grid-template-columns: repeat(64, 12px);
+      gap: 1px;
+      margin-top: 5px;
+    }
+    .week, .spacer {
+      width: 10px;
+      height: 10px;
+      box-sizing: border-box;
+    }
+    .week {
+      background-color: #eee;
+      position: relative;
+      cursor: pointer;
+    }
+    .week.past {
+      background-color: #746eef;
+    }
+    .week.has-artifacts {
+      background-color: #ff9500;
+    }
+    .week.past.has-artifacts {
+      background-color: #ff6b00;
+    }
+    .spacer {
+      background-color: #fff;
+      border: 1px solid #fff;
+    }
+    .tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: auto; /* Changed from none to auto */
+      z-index: 100;
+      max-width: 300px;
+      min-width: 200px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      padding: 10px;
+      font-size: 12px;
+    }
+    .tooltip .week-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 3px;
+    }
+    .tooltip ul {
+      margin: 5px 0 0 0;
+      padding-left: 20px;
+      list-style: none;
+    }
+    .tooltip li {
+      margin: 3px 0;
+      padding: 4px;
+      line-height: 1.3;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.2s;
+    }
+    .tooltip li:hover {
+      background-color: #f0f0f0;
+    }
+    #preview {
+      position: absolute;
+      display: none;
+      z-index: 150;
+      max-width: 600px;
+      min-width: 400px;
+      max-height: 500px;
+      overflow-y: auto;
+      background: white;
+      border: 2px solid #666;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      padding: 15px;
+      font-size: 14px;
+    }
+    #preview h1, #preview h2, #preview h3 {
+      margin-top: 0;
+    }
+    #preview .preview-header {
+      font-weight: bold;
+      color: #666;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #eee;
+    }
+    #popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: none;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 200;
+    }
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: none;
+      z-index: 75;
+    }
+  </style>
+</head>
+<body>
+  <h1>This Is Your Life In Weeks<br><span style="font-size: 0.5em;">Inspired by Dr. Peter Attia</span></h1>
+  
+  <label for="birthdate">Enter your birthdate (YYYY-MM-DD): </label>
+  <input type="date" id="birthdate">
+  <button onclick="generateGrid()">Generate</button>
+
+  <div id="container"></div>
+
+  <div id="tooltip" class="tooltip"></div>
+  <div id="preview"></div>
+
+  <div id="overlay" onclick="hidePopup()"></div>
+  <div id="popup"></div>
+
+  <script>
+    let birthdate;
+    let weeksData = {};
+    let allItems = [];
+    let tooltipTimeout = null;
+    let previewTimeout = null;
+
+    // Load weeks-index.json automatically
+    async function loadWeeksData() {
+      try {
+        const response = await fetch('weeks-index.json');
+        const data = await response.json();
+        
+        allItems = data.items;
+        
+        // Organize by week number for quick lookup
+        weeksData = {};
+        data.items.forEach(item => {
+          if (item.week !== null && item.week !== undefined) {
+            if (!weeksData[item.week]) {
+              weeksData[item.week] = [];
+            }
+            weeksData[item.week].push(item);
+          }
+        });
+        
+        console.log('Loaded weeks data:', Object.keys(weeksData).length, 'weeks with artifacts');
+      } catch (error) {
+        console.error('Failed to load weeks-index.json:', error);
+      }
+    }
+
+    // Load data when page loads
+    loadWeeksData();
+
+    function truncateTitle(title, maxLength = 50) {
+      if (title.length <= maxLength) return title;
+      return title.substring(0, maxLength) + '...';
+    }
+
+    async function showPreview(item, event) {
+      const preview = document.getElementById('preview');
+      
+      const fullPath = '../' + item.path;
+      try {
+        // Fetch the markdown file
+        const response = await fetch(fullPath);
+        const markdown = await response.text();
+        
+        // Simple markdown to HTML conversion (you might want a library like marked.js for better rendering)
+        let html = markdown
+          .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+          .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+          .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.+?)\*/g, '<em>$1</em>')
+          .replace(/\n\n/g, '</p><p>')
+          .replace(/\n/g, '<br>');
+        
+        html = '<p>' + html + '</p>';
+        
+        preview.innerHTML = `
+          <div class="preview-header">${item.title}</div>
+          ${html}
+        `;
+        
+        // Position preview next to tooltip
+        preview.style.left = (event.pageX + 320) + 'px';
+        preview.style.top = event.pageY + 'px';
+        preview.style.display = 'block';
+        
+      } catch (error) {
+        preview.innerHTML = `
+          <div class="preview-header">${item.title}</div>
+          <p><em>Could not load preview</em></p>
+          <p>Path: ${item.path}</p>
+        `;
+        preview.style.left = (event.pageX + 320) + 'px';
+        preview.style.top = event.pageY + 'px';
+        preview.style.display = 'block';
+      }
+    }
+
+    function hidePreview() {
+      clearTimeout(previewTimeout);
+      previewTimeout = setTimeout(() => {
+        const preview = document.getElementById('preview');
+        if (!preview.matches(':hover')) {
+          preview.style.display = 'none';
+        }
+      }, 200);
+    }
+
+    function hideTooltip() {
+      clearTimeout(tooltipTimeout);
+      tooltipTimeout = setTimeout(() => {
+        const tooltip = document.getElementById('tooltip');
+        const preview = document.getElementById('preview');
+        if (!tooltip.matches(':hover') && !preview.matches(':hover')) {
+          tooltip.style.display = 'none';
+          preview.style.display = 'none';
+        }
+      }, 200);
+    }
+
+    function generateGrid() {
+      const dateVal = document.getElementById("birthdate").value;
+      const [year, month, day] = dateVal.split("-").map(Number);
+      birthdate = new Date(Date.UTC(year, month - 1, day, 12)); // Noon UTC
+
+      const now = new Date();
+      const container = document.getElementById("container");
+      container.innerHTML = "";
+      const years = 100;
+      const weeksPerYear = 52;
+
+      for (let year = 0; year < years; year++) {
+        if (year % 10 === 0) {
+          const label = document.createElement("div");
+          label.className = "decade-label";
+          label.textContent = year === 0 ? "Hello" : `Age ${year}`;
+          container.appendChild(label);
+        }
+
+        const grid = document.createElement("div");
+        grid.className = "grid-row";
+        grid.style.display = "grid";
+        grid.style.gridTemplateColumns = "repeat(64, 12px)";
+        grid.style.gap = "1px";
+
+        for (let week = 0; week < weeksPerYear; week++) {
+          if (week > 0 && week % 4 === 0) {
+            const spacer = document.createElement("div");
+            spacer.className = "spacer";
+            grid.appendChild(spacer);
+          }
+
+          const i = year * weeksPerYear + week;
+          const div = document.createElement("div");
+          const nowWeek = Math.floor((now - birthdate) / (1000 * 60 * 60 * 24 * 7));
+          
+          // Check if this week has artifacts
+          const hasArtifacts = weeksData[i] && weeksData[i].length > 0;
+          
+          div.className = "week" + 
+            (i < nowWeek ? " past" : "") + 
+            (hasArtifacts ? " has-artifacts" : "");
+          div.dataset.index = i;
+
+          div.addEventListener("mouseenter", (e) => {
+            clearTimeout(tooltipTimeout);
+            const tooltip = document.getElementById("tooltip");
+            
+            if (hasArtifacts) {
+              // Show artifacts for this week
+              const artifacts = weeksData[i];
+              let html = `<div class="week-title">Week ${i}</div><ul>`;
+              artifacts.forEach((artifact, idx) => {
+                html += `<li data-artifact-index="${i}-${idx}">${truncateTitle(artifact.title)}</li>`;
+              });
+              html += '</ul>';
+              tooltip.innerHTML = html;
+              
+              // Add hover listeners to list items
+              setTimeout(() => {
+                tooltip.querySelectorAll('li').forEach(li => {
+                  li.addEventListener('mouseenter', (e) => {
+                    const [weekNum, artIdx] = e.target.dataset.artifactIndex.split('-');
+                    const artifact = weeksData[weekNum][artIdx];
+                    showPreview(artifact, e);
+                  });
+                  
+                  li.addEventListener('mouseleave', () => {
+                    hidePreview();
+                  });
+                });
+              }, 0);
+              
+            } else {
+              tooltip.innerHTML = `<div class="week-title">Week ${i}</div>`;
+            }
+            
+            tooltip.style.display = "block";
+            tooltip.style.left = e.pageX + 15 + "px";
+            tooltip.style.top = e.pageY + 15 + "px";
+          });
+
+          div.addEventListener("mousemove", (e) => {
+            const tooltip = document.getElementById("tooltip");
+            tooltip.style.left = e.pageX + 15 + "px";
+            tooltip.style.top = e.pageY + 15 + "px";
+          });
+
+          div.addEventListener("mouseleave", () => {
+            hideTooltip();
+          });
+
+          div.addEventListener("click", (e) => {
+            const weekNumber = parseInt(div.dataset.index) + 1;
+            const startDate = new Date(birthdate.getTime() + (weekNumber - 1) * 7 * 24 * 60 * 60 * 1000);
+            const endDate = new Date(startDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            const suffix = (n) => {
+              if (n % 10 === 1 && n % 100 !== 11) return `${n}st`;
+              if (n % 10 === 2 && n % 100 !== 12) return `${n}nd`;
+              if (n % 10 === 3 && n % 100 !== 13) return `${n}rd`;
+              return `${n}th`;
+            };
+
+            const message = `${startDate.toLocaleDateString('en-US', options)} – ${endDate.toLocaleDateString('en-US', options)}<br><h5>Your ${suffix(weekNumber)} week</h5> `;
+
+            const popup = document.getElementById("popup");
+            popup.innerHTML = message;
+
+            const rect = div.getBoundingClientRect();
+            popup.style.position = "absolute";
+            popup.style.left = rect.right + 10  + window.scrollX + "px";
+            popup.style.top = rect.top - popup.offsetHeight - 10 + window.scrollY + "px";
+
+            popup.style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+          });
+
+          grid.appendChild(div);
+        }
+
+        container.appendChild(grid);
+      }
+    }
+
+    // Keep tooltip and preview visible when hovering over them
+    document.addEventListener('DOMContentLoaded', () => {
+      const tooltip = document.getElementById('tooltip');
+      const preview = document.getElementById('preview');
+      
+      tooltip.addEventListener('mouseenter', () => {
+        clearTimeout(tooltipTimeout);
+      });
+      
+      tooltip.addEventListener('mouseleave', () => {
+        hideTooltip();
+      });
+      
+      preview.addEventListener('mouseenter', () => {
+        clearTimeout(previewTimeout);
+      });
+      
+      preview.addEventListener('mouseleave', () => {
+        hidePreview();
+      });
+    });
+
+    function hidePopup() {
+      document.getElementById("popup").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+</body>
+</html>

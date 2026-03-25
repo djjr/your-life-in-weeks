@@ -1,0 +1,3 @@
+.DS_Store
+*.log
+node_modules/   # if you ever add any node packages
