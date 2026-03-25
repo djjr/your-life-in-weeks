@@ -183,3 +183,60 @@ I hope this letter finds you well...
 ```
 
 This artifact would appear highlighted on the week of May 15, 1981 in the grid visualization.
+
+---
+
+## Planned Fields
+
+These fields are not yet used by the indexer or viewer but are intended for future implementation. Adding them to your artifact files now will avoid reprocessing later.
+
+### Media fields
+
+```yaml
+url: "https://yoursite.com/memoir/artifacts/1981-agnes-seber.pdf"
+media_type: "application/pdf"   # or image/jpeg, image/png, video/mp4, audio/mp3, etc.
+```
+
+The `url` points to the actual file hosted on your web server. The `media_type` tells the viewer how to display it — PDF embed, image lightbox, video player, audio player, etc.
+
+### Content fields
+
+```yaml
+transcription: |
+  Dear Dan,
+  I hope this letter finds you well...
+summary: "Agnes writes about the summer plans and mentions the Chambliss visit."
+```
+
+`transcription` is the full text of a letter or document (enables search). `summary` is a short AI-generated or hand-written description.
+
+### Provenance fields
+
+```yaml
+people: [Agnes Seber, Dan Ryan]
+location: "Schenectady, NY"
+source: "Box 3, Folder 12"       # physical location in the archive
+```
+
+`people` lists names mentioned or depicted — useful for filtering and future search. `location` is where the artifact was created or where an event took place. `source` records the physical location of the original item in your archive.
+
+### Full example with planned fields
+
+```yaml
+---
+title: "1981 Agnes Seber to Dan Ryan"
+id: "000001"
+date: "1981-05-15"
+type: "correspondence"
+tags: [letters, family]
+url: "https://yoursite.com/memoir/artifacts/1981-agnes-seber.pdf"
+media_type: "application/pdf"
+people: [Agnes Seber, Dan Ryan]
+location: "Schenectady, NY"
+source: "Box 3, Folder 12"
+summary: "Agnes writes about summer plans and mentions the Chambliss visit."
+transcription: |
+  Dear Dan,
+  I hope this letter finds you well...
+---
+```
