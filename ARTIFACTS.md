@@ -142,18 +142,16 @@ Once your artifact files are in place, run the indexer to generate `weeks-index.
 
 ```bash
 node build-weeks-index.mjs \
-  --vault "/Users/dan/Documents/PROJECTS/your-life-in-weeks/djjr-memoir" \
+  --vault "~/Documents/PROJECTS/your-life-in-weeks/djjr-memoir" \
   --birthdate "1947-01-01" \
   --out "./weeks-index.json"
 ```
-
-> **Note:** The `--vault` path must be a full absolute path. Tilde shorthand (`~/Documents/...`) is not expanded and will result in zero artifacts found.
 
 ### Options
 
 | Flag | Required | Description |
 |------|----------|-------------|
-| `--vault` | Yes | Full absolute path to the directory containing your artifact files (no `~`) |
+| `--vault` | Yes | Path to the directory containing your artifact files (`~` is supported) |
 | `--birthdate` | Yes | Your birth date in `YYYY-MM-DD` format |
 | `--out` | No | Output path for the index file (default: `./weeks-index.json`) |
 | `--week_base` | No | `0` for 0-indexed weeks (default), `1` for 1-indexed |
