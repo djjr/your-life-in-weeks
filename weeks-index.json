@@ -1,42 +1,132 @@
 {
-  "generatedAt": "2026-01-01T21:19:02.048Z",
-  "root": "/Users/dan/Documents/djjr-memoir",
-  "items": [
+  "schema": "memoir-weeks-index/v1",
+  "generatedAt": "2026-03-26T16:45:32.430Z",
+  "vaultRoot": "/Users/danryan/Documents/PROJECTS/your-life-in-weeks/djjr-memoir",
+  "birthdate": "1959-07-07",
+  "baseUrl": "http://localhost:8000/djjr-memoir",
+  "artifactCount": 7,
+  "artifacts": [
     {
-      "path": "artifacts/1981 Paul Ryan to Dan Ryan?.md",
-      "title": "Fragment of letter possibly from Paul Ryan to Dan Ryan",
       "id": "000004",
-      "week": 1121,
-      "date": "1981-01-01T00:00:00.000Z",
-      "tags": [],
-      "type": "correspondence"
+      "title": "Fragment of letter possibly from Paul Ryan to Dan Ryan",
+      "path": "artifacts/1981 Paul Ryan to Dan Ryan.md",
+      "type": "correspondence",
+      "tags": [
+        "family"
+      ],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": "1981-01-01T00:00:00.000Z",
+      "end": null,
+      "weekStart": 1121,
+      "weekEnd": 1121
     },
     {
-      "path": "artifacts/1981 Dan Ryan to Dan Chambliss.md",
-      "title": "Unsent letter from Dan Ryan to Dan Chambliss",
-      "id": "000003",
-      "week": 1130,
-      "date": "1981-03-06T00:00:00.000Z",
-      "tags": [],
-      "type": "correspondence"
-    },
-    {
-      "path": "artifacts/1981 Dan Chambliss to Dan Ryan.md",
-      "title": "1981-01-24 Letter from Dan Chambliss to Dan Ryan",
       "id": "000002",
-      "week": 1124,
-      "date": "1981-01-24T00:00:00.000Z",
+      "title": "1981-01-24 Letter from Dan Chambliss to Dan Ryan",
+      "path": "artifacts/1981 Dan Chambliss to Dan Ryan.md",
+      "type": "correspondence",
       "tags": [],
-      "type": "correspondence"
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": "1981-01-24T00:00:00.000Z",
+      "end": "1981-01-24T00:00:00.000Z",
+      "weekStart": 1124,
+      "weekEnd": 1124
     },
     {
-      "path": "artifacts/1981 Agnes Seber to Dan Ryan.md",
-      "title": "1981 Agnes Seber to Dan Ryan",
-      "id": "000001",
-      "week": 1140,
-      "date": "1981-05-15T00:00:00.000Z",
+      "id": "000003",
+      "title": "Unsent letter from Dan Ryan to Dan Chambliss",
+      "path": "artifacts/1981 Dan Ryan to Dan Chambliss.md",
+      "type": "correspondence",
       "tags": [],
-      "type": "correspondence"
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": "1981-03-06T00:00:00.000Z",
+      "end": "1981-03-06T00:00:00.000Z",
+      "weekStart": 1130,
+      "weekEnd": 1130
+    },
+    {
+      "id": "000001",
+      "title": "1981 Agnes Seber to Dan Ryan",
+      "path": "artifacts/1981 Agnes Seber to Dan Ryan.md",
+      "type": "correspondence",
+      "tags": [],
+      "url": "artifacts/1981 Agnes Seber to Dan Ryan.pdf",
+      "media_type": "application/pdf",
+      "date": null,
+      "start": "1981-05-15T00:00:00.000Z",
+      "end": "1981-05-15T00:00:00.000Z",
+      "weekStart": 1140,
+      "weekEnd": 1140
+    },
+    {
+      "id": "artifacts/1982 PADI Certification.md",
+      "title": "1982 PADI Certification",
+      "path": "artifacts/1982 PADI Certification.md",
+      "type": null,
+      "tags": [],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": "1982-08-01T00:00:00.000Z",
+      "end": null,
+      "weekStart": 1203,
+      "weekEnd": 1203
+    },
+    {
+      "id": "_templates/artifact.md.md",
+      "title": "artifact.md",
+      "path": "_templates/artifact.md.md",
+      "type": null,
+      "tags": [],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": null,
+      "end": null,
+      "weekStart": null,
+      "weekEnd": null
+    },
+    {
+      "id": "Welcome.md",
+      "title": "Welcome",
+      "path": "Welcome.md",
+      "type": null,
+      "tags": [],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": null,
+      "end": null,
+      "weekStart": null,
+      "weekEnd": null
     }
-  ]
+  ],
+  "byWeek": {
+    "1121": [
+      "000004"
+    ],
+    "1124": [
+      "000002"
+    ],
+    "1130": [
+      "000003"
+    ],
+    "1140": [
+      "000001"
+    ],
+    "1203": [
+      "artifacts/1982 PADI Certification.md"
+    ]
+  },
+  "byTag": {
+    "family": [
+      "000004"
+    ]
+  }
 }

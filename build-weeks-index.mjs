@@ -33,8 +33,13 @@ function parseArgs(argv) {
 }
 
 function toUtcNoon(dateStr) {
-  // expect YYYY-MM-DD
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr || "").trim());
+  if (!dateStr) return null;
+  // gray-matter/js-yaml auto-parses unquoted YYYY-MM-DD as a JS Date object
+  if (dateStr instanceof Date) {
+    return new Date(Date.UTC(dateStr.getUTCFullYear(), dateStr.getUTCMonth(), dateStr.getUTCDate(), 12, 0, 0));
+  }
+  // expect YYYY-MM-DD string
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr).trim());
   if (!m) return null;
   const [_, y, mo, d] = m;
   return new Date(Date.UTC(Number(y), Number(mo) - 1, Number(d), 12, 0, 0));
@@ -73,6 +78,7 @@ const vault = vaultArg
   : null;
 const outPath = args.out ? path.resolve(String(args.out)) : path.resolve("./weeks-index.json");
 const birthdateStr = args.birthdate ? String(args.birthdate) : null;
+const baseUrl = args.base_url ? String(args.base_url).replace(/\/$/, "") : null;
 
 if (!vault) {
   console.error("Missing --vault");
@@ -111,10 +117,10 @@ for (const file of mdFiles) {
   const title = (fm.title && String(fm.title)) || fileName;
   const id = (fm.id && String(fm.id)) || relPath; // fallback: stable path
 
-  // Dates
+  // Dates — support both date/start/end and date_start/date_end
   const date = fm.date ? toUtcNoon(fm.date) : null;
-  const start = fm.start ? toUtcNoon(fm.start) : (date ? date : null);
-  const end = fm.end ? toUtcNoon(fm.end) : null;
+  const start = toUtcNoon(fm.start || fm.date_start || fm.date) || null;
+  const end = toUtcNoon(fm.end || fm.date_end) || null;
 
   // Optional explicit week override (useful for undated items)
   // If you store "week: 1234" and you mean "1234th week" (1-based), set week_base=1.
@@ -149,10 +155,11 @@ for (const file of mdFiles) {
     path: relPath,
     type,
     tags,
-    // store original strings too if you want:
+    url: fm.url ? String(fm.url) : null,
+    media_type: fm.media_type ? String(fm.media_type) : null,
     date: fm.date || null,
-    start: fm.start || fm.date || null,
-    end: fm.end || null,
+    start: fm.start || fm.date_start || fm.date || null,
+    end: fm.end || fm.date_end || null,
     weekStart,
     weekEnd
   };
@@ -192,6 +199,7 @@ const index = {
   generatedAt: new Date().toISOString(),
   vaultRoot: vault.replaceAll(path.sep, "/"),
   birthdate: birthdateStr,
+  baseUrl,
   artifactCount: artifacts.length,
   artifacts,
   byWeek,

@@ -151,6 +151,7 @@
     let birthdate;
     let weeksData = {};
     let allItems = [];
+    let vaultBaseUrl = null;
     let tooltipTimeout = null;
     let previewTimeout = null;
 
@@ -159,20 +160,25 @@
       try {
         const response = await fetch('weeks-index.json');
         const data = await response.json();
-        
-        allItems = data.items;
-        
-        // Organize by week number for quick lookup
+
+        vaultBaseUrl = data.baseUrl || null;
+        allItems = data.artifacts;
+
+        // Build artifact map for byWeek lookup (handles date ranges correctly)
+        const artifactMap = {};
+        data.artifacts.forEach(a => { artifactMap[a.id] = a; });
+
         weeksData = {};
-        data.items.forEach(item => {
-          if (item.week !== null && item.week !== undefined) {
-            if (!weeksData[item.week]) {
-              weeksData[item.week] = [];
-            }
-            weeksData[item.week].push(item);
-          }
+        Object.entries(data.byWeek).forEach(([week, ids]) => {
+          weeksData[parseInt(week)] = ids.map(id => artifactMap[id]).filter(Boolean);
         });
-        
+
+        // Auto-populate birthdate from index if the field is empty
+        if (data.birthdate) {
+          const input = document.getElementById('birthdate');
+          if (!input.value) input.value = data.birthdate;
+        }
+
         console.log('Loaded weeks data:', Object.keys(weeksData).length, 'weeks with artifacts');
       } catch (error) {
         console.error('Failed to load weeks-index.json:', error);
@@ -189,44 +195,68 @@
 
     async function showPreview(item, event) {
       const preview = document.getElementById('preview');
-      
-      const fullPath = '../' + item.path;
-      try {
-        // Fetch the markdown file
-        const response = await fetch(fullPath);
-        const markdown = await response.text();
-        
-        // Simple markdown to HTML conversion (you might want a library like marked.js for better rendering)
-        let html = markdown
-          .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-          .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-          .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-          .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*(.+?)\*/g, '<em>$1</em>')
-          .replace(/\n\n/g, '</p><p>')
-          .replace(/\n/g, '<br>');
-        
-        html = '<p>' + html + '</p>';
-        
+
+      const resolvedUrl = item.url && !item.url.match(/^https?:\/\//)
+        ? (vaultBaseUrl ? vaultBaseUrl.replace(/\/$/, '') + '/' + item.url : null)
+        : item.url;
+      const fetchUrl = resolvedUrl
+        || (vaultBaseUrl ? vaultBaseUrl.replace(/\/$/, '') + '/' + item.path : null);
+
+      if (!fetchUrl) {
         preview.innerHTML = `
           <div class="preview-header">${item.title}</div>
-          ${html}
+          <p><em>No URL configured for this artifact.</em></p>
         `;
-        
-        // Position preview next to tooltip
         preview.style.left = (event.pageX + 320) + 'px';
         preview.style.top = event.pageY + 'px';
         preview.style.display = 'block';
+        return;
+      }
+
+      const positionPreview = (e) => {
+        preview.style.left = (e.pageX + 320) + 'px';
+        preview.style.top = e.pageY + 'px';
+        preview.style.display = 'block';
+      };
+
+      const mediaType = item.media_type || '';
+
+      try {
+        let html;
+
+        if (mediaType.startsWith('image/')) {
+          html = `<img src="${fetchUrl}" style="max-width:100%">`;
+        } else if (mediaType === 'application/pdf') {
+          html = `<iframe src="${fetchUrl}" width="100%" height="420px" style="border:none"></iframe>`;
+        } else if (mediaType.startsWith('video/')) {
+          html = `<video src="${fetchUrl}" controls style="max-width:100%"></video>`;
+        } else if (mediaType.startsWith('audio/')) {
+          html = `<audio src="${fetchUrl}" controls style="width:100%"></audio>`;
+        } else {
+          // Default: fetch and render as markdown
+          const response = await fetch(fetchUrl);
+          const markdown = await response.text();
+          html = markdown
+            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>');
+          html = '<p>' + html + '</p>';
+        }
+
+        preview.innerHTML = `<div class="preview-header">${item.title}</div>${html}`;
+        positionPreview(event);
         
       } catch (error) {
         preview.innerHTML = `
           <div class="preview-header">${item.title}</div>
           <p><em>Could not load preview</em></p>
-          <p>Path: ${item.path}</p>
+          <p>URL: ${fetchUrl}</p>
         `;
-        preview.style.left = (event.pageX + 320) + 'px';
-        preview.style.top = event.pageY + 'px';
-        preview.style.display = 'block';
+        positionPreview(event);
       }
     }
 
