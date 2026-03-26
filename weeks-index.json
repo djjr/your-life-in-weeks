@@ -1,11 +1,83 @@
 {
   "schema": "memoir-weeks-index/v1",
-  "generatedAt": "2026-03-26T16:45:32.430Z",
+  "generatedAt": "2026-03-26T19:44:12.164Z",
   "vaultRoot": "/Users/danryan/Documents/PROJECTS/your-life-in-weeks/djjr-memoir",
   "birthdate": "1959-07-07",
   "baseUrl": "http://localhost:8000/djjr-memoir",
-  "artifactCount": 7,
+  "artifactCount": 15,
   "artifacts": [
+    {
+      "id": "artifacts/1959 July 7 New York Times.md",
+      "title": "1959 July 7 New York Times",
+      "path": "artifacts/1959 July 7 New York Times.md",
+      "type": null,
+      "tags": [
+        "NYT"
+      ],
+      "url": "artifacts/19590707NYT.jpg",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "1959-07-07T00:00:00.000Z",
+      "end": null,
+      "weekStart": 0,
+      "weekEnd": 0
+    },
+    {
+      "id": "artifacts/1959 DJR Birth Certificate.md",
+      "title": "Birth Certificate",
+      "path": "artifacts/1959 DJR Birth Certificate.md",
+      "type": null,
+      "tags": [],
+      "url": "artifacts/1959-DJR-birthcertificate.pdf",
+      "media_type": "application/pdf",
+      "date": null,
+      "start": "1959-07-07T00:00:00.000Z",
+      "end": null,
+      "weekStart": 0,
+      "weekEnd": 0
+    },
+    {
+      "id": "artifacts/1960 Mom's Diary 7 January.md",
+      "title": "1960 Mom's Diary 7 January",
+      "path": "artifacts/1960 Mom's Diary 7 January.md",
+      "type": null,
+      "tags": [],
+      "url": "artifacts/1960-01-07.jpg",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "1960-01-07T00:00:00.000Z",
+      "end": null,
+      "weekStart": 26,
+      "weekEnd": 26
+    },
+    {
+      "id": "artifacts/1960 Spring Summer DJR in Dirt.md",
+      "title": "1960 Spring Summer DJR in Dirt",
+      "path": "artifacts/1960 Spring Summer DJR in Dirt.md",
+      "type": null,
+      "tags": [],
+      "url": "artifacts/1960-DJR-in-dirt.JPG",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "1960-06-30T00:00:00.000Z",
+      "end": null,
+      "weekStart": 51,
+      "weekEnd": 51
+    },
+    {
+      "id": "artifacts/1963 Summer Photo Mowry Street.md",
+      "title": "1963 Summer Photo Mowry Street",
+      "path": "artifacts/1963 Summer Photo Mowry Street.md",
+      "type": null,
+      "tags": [],
+      "url": "artifacts/1963c-Mary-Agnes-Herb-John-Dan.jpg",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "1963-07-01T00:00:00.000Z",
+      "end": null,
+      "weekStart": 207,
+      "weekEnd": 207
+    },
     {
       "id": "000004",
       "title": "Fragment of letter possibly from Paul Ryan to Dan Ryan",
@@ -14,8 +86,8 @@
       "tags": [
         "family"
       ],
-      "url": null,
-      "media_type": null,
+      "url": "artifacts/1981Q Paul Ryan to Dan Ryan.pdf",
+      "media_type": "application/pdf",
       "date": null,
       "start": "1981-01-01T00:00:00.000Z",
       "end": null,
@@ -28,8 +100,8 @@
       "path": "artifacts/1981 Dan Chambliss to Dan Ryan.md",
       "type": "correspondence",
       "tags": [],
-      "url": null,
-      "media_type": null,
+      "url": "artifacts/1981 Dan Chambliss to Dan Ryan.pdf",
+      "media_type": "application/pdf",
       "date": null,
       "start": "1981-01-24T00:00:00.000Z",
       "end": "1981-01-24T00:00:00.000Z",
@@ -42,8 +114,8 @@
       "path": "artifacts/1981 Dan Ryan to Dan Chambliss.md",
       "type": "correspondence",
       "tags": [],
-      "url": null,
-      "media_type": null,
+      "url": "artifacts/1981 Dan Ryan to Dan Chambliss (unsent).pdf",
+      "media_type": "application/pdf",
       "date": null,
       "start": "1981-03-06T00:00:00.000Z",
       "end": "1981-03-06T00:00:00.000Z",
@@ -70,13 +142,57 @@
       "path": "artifacts/1982 PADI Certification.md",
       "type": null,
       "tags": [],
-      "url": null,
-      "media_type": null,
+      "url": "artifacts/DJRPADICARD.jpg",
+      "media_type": "image/jpg",
       "date": null,
       "start": "1982-08-01T00:00:00.000Z",
       "end": null,
       "weekStart": 1203,
       "weekEnd": 1203
+    },
+    {
+      "id": "artifacts/1998 Convenience Pollution.md",
+      "title": "1998 Convenience Pollution",
+      "path": "artifacts/1998 Convenience Pollution.md",
+      "type": null,
+      "tags": [],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": "1998-04-16T00:00:00.000Z",
+      "end": null,
+      "weekStart": 2023,
+      "weekEnd": 2023
+    },
+    {
+      "id": "artifacts/2000 07 11 GDN Flying.md",
+      "title": "2000 07 11 GDN Flying",
+      "path": "artifacts/2000 07 11 GDN Flying.md",
+      "type": null,
+      "tags": [
+        "family"
+      ],
+      "url": "artifacts/20000711-GDN-flying01.jpg",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "2000-07-11",
+      "end": "2000-07-11",
+      "weekStart": 2140,
+      "weekEnd": 2140
+    },
+    {
+      "id": "artifacts/2009 Gillian Redwood Park.md",
+      "title": "2009 Gillian Redwood Park",
+      "path": "artifacts/2009 Gillian Redwood Park.md",
+      "type": null,
+      "tags": [],
+      "url": "artifacts/2009-10-17-Gillian-Redwood-Park.JPG",
+      "media_type": "image/jpg",
+      "date": null,
+      "start": "2009-10-17T00:00:00.000Z",
+      "end": null,
+      "weekStart": 2623,
+      "weekEnd": 2623
     },
     {
       "id": "_templates/artifact.md.md",
@@ -108,6 +224,19 @@
     }
   ],
   "byWeek": {
+    "0": [
+      "artifacts/1959 DJR Birth Certificate.md",
+      "artifacts/1959 July 7 New York Times.md"
+    ],
+    "26": [
+      "artifacts/1960 Mom's Diary 7 January.md"
+    ],
+    "51": [
+      "artifacts/1960 Spring Summer DJR in Dirt.md"
+    ],
+    "207": [
+      "artifacts/1963 Summer Photo Mowry Street.md"
+    ],
     "1121": [
       "000004"
     ],
@@ -122,11 +251,24 @@
     ],
     "1203": [
       "artifacts/1982 PADI Certification.md"
+    ],
+    "2023": [
+      "artifacts/1998 Convenience Pollution.md"
+    ],
+    "2140": [
+      "artifacts/2000 07 11 GDN Flying.md"
+    ],
+    "2623": [
+      "artifacts/2009 Gillian Redwood Park.md"
     ]
   },
   "byTag": {
     "family": [
-      "000004"
+      "000004",
+      "artifacts/2000 07 11 GDN Flying.md"
+    ],
+    "NYT": [
+      "artifacts/1959 July 7 New York Times.md"
     ]
   }
 }

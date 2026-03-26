@@ -1,0 +1,20 @@
+# Obsidian config
+.obsidian/
+
+# Binary artifact files (hosted on web server, not in repo)
+*.pdf
+*.jpg
+*.JPG
+*.jpeg
+*.png
+*.PNG
+*.mp3
+*.mp4
+*.mov
+*.wav
+
+# Old project copy inside vault
+life-in-weeks/
+
+# macOS
+.DS_Store
