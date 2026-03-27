@@ -1,6 +1,5 @@
 ---
 date_start: 1998-04-16
+url: artifacts/1998-Convenience-Pollution.md
+media_type: text/markdown
 ---
-16 April 98 Convenience Pollution
-
-Look critically at how labor saving practices (such as computer answering services which linearize inquiries) provide cost savings to organization but externalize some of these costs to consumers.  How to look at whether it is, in effect, raising the cost of the service to the consumer.  Also, it produces a cost in ill will and lost inquiries (when what the person wants does not fit into one of the categories and so they give up or when it is so far down the path that they give up or when they make an incorrect choice along the way and then can’t find what they want).  Admittedly, some of these have to do with design issues and whether the system is well designed with respect to the information problem that needs to be solved.  There is also, however, a rigidity effect.  The tree structure has to be either depth or breadth first and the user can only see one level at a time so that at the categories presented at each stage have to do the job of hinting at all that may be down a particular path.  “Real” information and referral people probably don’t operate in such a linear search pattern.  Also, the acoustic nature of the medium puts limits on the process because of necessary sequentiality.  “Press 1 at any time” works, but it still is slower than pressing ahead because you are peaking.

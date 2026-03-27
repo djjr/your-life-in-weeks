@@ -1,10 +1,10 @@
 {
   "schema": "memoir-weeks-index/v1",
-  "generatedAt": "2026-03-26T19:44:12.164Z",
+  "generatedAt": "2026-03-27T14:02:21.515Z",
   "vaultRoot": "/Users/danryan/Documents/PROJECTS/your-life-in-weeks/djjr-memoir",
   "birthdate": "1959-07-07",
   "baseUrl": "http://localhost:8000/djjr-memoir",
-  "artifactCount": 15,
+  "artifactCount": 16,
   "artifacts": [
     {
       "id": "artifacts/1959 July 7 New York Times.md",
@@ -19,6 +19,11 @@
       "date": null,
       "start": "1959-07-07T00:00:00.000Z",
       "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": "Image of front page of New York Times 7/7/1959",
+      "transcription": null,
       "weekStart": 0,
       "weekEnd": 0
     },
@@ -33,6 +38,13 @@
       "date": null,
       "start": "1959-07-07T00:00:00.000Z",
       "end": null,
+      "people": [
+        "Dan Ryan"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 0,
       "weekEnd": 0
     },
@@ -47,6 +59,14 @@
       "date": null,
       "start": "1960-01-07T00:00:00.000Z",
       "end": null,
+      "people": [
+        "Mary Ryan",
+        "Dan Ryan"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 26,
       "weekEnd": 26
     },
@@ -61,6 +81,13 @@
       "date": null,
       "start": "1960-06-30T00:00:00.000Z",
       "end": null,
+      "people": [
+        "Dan Ryan"
+      ],
+      "location": null,
+      "source": null,
+      "summary": "Approximately 1 year old DJR playing in dirt in back yard at 20 East Mowry Street (grandparents' home). Appears to be early spring.",
+      "transcription": null,
       "weekStart": 51,
       "weekEnd": 51
     },
@@ -75,6 +102,17 @@
       "date": null,
       "start": "1963-07-01T00:00:00.000Z",
       "end": null,
+      "people": [
+        "Dan Ryan",
+        "Agnes Seber",
+        "Mary Ryan",
+        "John Ryan",
+        "Herbert Seber"
+      ],
+      "location": null,
+      "source": null,
+      "summary": "Mary Seber Ryan, Agnes Seber, Herbert Seber, John Ryan, Dan Ryan in back yard at 20 E Mowry St (Herb and Agnes' home). Mom does not appear pregnant with Paul yet, John appears close to two years.  Garden seems in full summer bloom. Photo labeled 1963.",
+      "transcription": null,
       "weekStart": 207,
       "weekEnd": 207
     },
@@ -91,6 +129,14 @@
       "date": null,
       "start": "1981-01-01T00:00:00.000Z",
       "end": null,
+      "people": [
+        "Paul Ryan",
+        "Dan Ryan"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 1121,
       "weekEnd": 1121
     },
@@ -105,6 +151,13 @@
       "date": null,
       "start": "1981-01-24T00:00:00.000Z",
       "end": "1981-01-24T00:00:00.000Z",
+      "people": [
+        "Dan Chambliss"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 1124,
       "weekEnd": 1124
     },
@@ -119,6 +172,11 @@
       "date": null,
       "start": "1981-03-06T00:00:00.000Z",
       "end": "1981-03-06T00:00:00.000Z",
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 1130,
       "weekEnd": 1130
     },
@@ -133,6 +191,13 @@
       "date": null,
       "start": "1981-05-15T00:00:00.000Z",
       "end": "1981-05-15T00:00:00.000Z",
+      "people": [
+        "Agnes Seber"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 1140,
       "weekEnd": 1140
     },
@@ -147,6 +212,11 @@
       "date": null,
       "start": "1982-08-01T00:00:00.000Z",
       "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": "Took diving certification course while staying in Sarasota for the summer. It was perhaps at the New College pool with Sherry Doty and Chris Debodisco and others.",
+      "transcription": null,
       "weekStart": 1203,
       "weekEnd": 1203
     },
@@ -156,11 +226,16 @@
       "path": "artifacts/1998 Convenience Pollution.md",
       "type": null,
       "tags": [],
-      "url": null,
-      "media_type": null,
+      "url": "artifacts/1998-Convenience-Pollution.md",
+      "media_type": "text/markdown",
       "date": null,
       "start": "1998-04-16T00:00:00.000Z",
       "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 2023,
       "weekEnd": 2023
     },
@@ -177,6 +252,13 @@
       "date": null,
       "start": "2000-07-11",
       "end": "2000-07-11",
+      "people": [
+        "Gillian Hadfield, Dylan Hadfield-Menell, Noah Hadfield-Menell"
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 2140,
       "weekEnd": 2140
     },
@@ -191,8 +273,34 @@
       "date": null,
       "start": "2009-10-17T00:00:00.000Z",
       "end": null,
+      "people": [
+        "\"Gillian Hadfield\""
+      ],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": 2623,
       "weekEnd": 2623
+    },
+    {
+      "id": "artifacts/1998-Convenience-Pollution.md",
+      "title": "1998-Convenience-Pollution",
+      "path": "artifacts/1998-Convenience-Pollution.md",
+      "type": null,
+      "tags": [],
+      "url": null,
+      "media_type": null,
+      "date": null,
+      "start": null,
+      "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
+      "weekStart": null,
+      "weekEnd": null
     },
     {
       "id": "_templates/artifact.md.md",
@@ -205,6 +313,11 @@
       "date": null,
       "start": null,
       "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": null,
       "weekEnd": null
     },
@@ -219,6 +332,11 @@
       "date": null,
       "start": null,
       "end": null,
+      "people": [],
+      "location": null,
+      "source": null,
+      "summary": null,
+      "transcription": null,
       "weekStart": null,
       "weekEnd": null
     }
