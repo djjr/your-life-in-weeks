@@ -286,6 +286,7 @@
     let weeksData = {};
     let allItems = [];
     let vaultBaseUrl = null;
+    let vaultDirName = null;
     let currentWeekIndex = null;
 
     async function loadWeeksData() {
@@ -294,6 +295,7 @@
         const data = await response.json();
 
         vaultBaseUrl = data.baseUrl || null;
+        vaultDirName = data.vaultRoot ? data.vaultRoot.split('/').pop() : null;
         allItems = data.artifacts;
 
         const artifactMap = {};
@@ -473,9 +475,13 @@
         mediaHtml = `<div class="artifact-viewer-content"><audio src="${url}" controls></audio></div>`;
         hasMedia = true;
       } else if (mediaType === 'text/plain' || mediaType === 'text/markdown') {
-        if (url) {
+        // Text files are in the repo — use a site-relative URL, not baseUrl
+        const textPath = artifact.url && !artifact.url.match(/^https?:\/\//)
+          ? (vaultDirName ? vaultDirName + '/' + artifact.url : null)
+          : (artifact.url || null);
+        if (textPath) {
           try {
-            const response = await fetch(url);
+            const response = await fetch(textPath);
             const raw = await response.text();
             const body = raw.replace(/^---[\s\S]*?---\n?/, '').trim();
             let html = body
@@ -492,7 +498,7 @@
             mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
           }
         } else {
-          mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
+          mediaHtml = `<p class="artifact-unavailable">Text file URL not configured.</p>`;
         }
       } else {
         mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
