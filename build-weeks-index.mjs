@@ -160,6 +160,11 @@ for (const file of mdFiles) {
     date: fm.date || null,
     start: fm.start || fm.date_start || fm.date || null,
     end: fm.end || fm.date_end || null,
+    people: normalizeTags(fm.people),
+    location: fm.location ? String(fm.location) : null,
+    source: fm.source ? String(fm.source) : null,
+    summary: fm.summary ? String(fm.summary) : null,
+    transcription: fm.transcription ? String(fm.transcription) : null,
     weekStart,
     weekEnd
   };

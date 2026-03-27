@@ -197,11 +197,73 @@
       width: 100%;
       margin-top: 8px;
     }
+    .artifact-unavailable {
+      font-size: 12px;
+      color: #aaa;
+      font-style: italic;
+      margin-bottom: 16px;
+    }
+    .artifact-meta {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 12px;
+    }
+    .artifact-meta summary {
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 10px;
+    }
+    .artifact-meta summary:hover { color: #555; }
+    .artifact-meta-kv {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 12px;
+      font-size: 12px;
+      margin: 8px 0 12px;
+    }
+    .artifact-meta-kv dt {
+      color: #999;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    .artifact-meta-kv dd {
+      margin: 0;
+      color: #444;
+    }
+    .artifact-meta-section {
+      margin-top: 12px;
+    }
+    .artifact-meta-section h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #999;
+      margin: 0 0 6px;
+    }
+    .artifact-meta-section p {
+      font-size: 13px;
+      color: #444;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .artifact-transcription {
+      font-size: 12px;
+      color: #444;
+      white-space: pre-wrap;
+      font-family: Georgia, serif;
+      line-height: 1.6;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
   <h1>This Is Your Life In Weeks<br><span style="font-size: 0.25em;">Inspired by Dr. Peter Attia</span></h1>
-  <div style="font-size: 11px; color: #aaa; margin-bottom: 8px;">v0.3 (20260326)</div>
+  <div style="font-size: 11px; color: #aaa; margin-bottom: 8px;">v0.4 (20260327)</div>
 
   <label for="birthdate">Enter your birthdate (YYYY-MM-DD): </label>
   <input type="date" id="birthdate">
@@ -356,45 +418,100 @@
       });
     }
 
+    function renderMetadata(artifact) {
+      const kv = [];
+      if (artifact.type) kv.push(['Type', artifact.type]);
+      const dateStr = artifact.start
+        ? (artifact.end && artifact.end !== artifact.start
+            ? `${artifact.start} – ${artifact.end}`
+            : artifact.start)
+        : null;
+      if (dateStr) kv.push(['Date', dateStr]);
+      if (artifact.people && artifact.people.length) kv.push(['People', artifact.people.join(', ')]);
+      if (artifact.location) kv.push(['Location', artifact.location]);
+      if (artifact.source)   kv.push(['Source',   artifact.source]);
+      if (artifact.tags && artifact.tags.length)   kv.push(['Tags', artifact.tags.join(', ')]);
+
+      const parts = [];
+      if (artifact.summary) {
+        parts.push(`<div class="artifact-meta-section">
+          <h4>Summary</h4><p>${artifact.summary}</p>
+        </div>`);
+      }
+      if (artifact.transcription) {
+        parts.push(`<div class="artifact-meta-section">
+          <h4>Transcription</h4>
+          <pre class="artifact-transcription">${artifact.transcription}</pre>
+        </div>`);
+      }
+      if (kv.length) {
+        parts.push(`<dl class="artifact-meta-kv">${
+          kv.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')
+        }</dl>`);
+      }
+      return parts.join('');
+    }
+
     async function showArtifactViewer(artifact, weekIndex) {
       const body = document.getElementById('panel-body');
       const url = resolveArtifactUrl(artifact);
       const mediaType = artifact.media_type || '';
 
-      let contentHtml;
-      if (!url) {
-        contentHtml = '<p><em>No URL configured for this artifact.</em></p>';
-      } else if (mediaType.startsWith('image/')) {
-        contentHtml = `<div class="artifact-viewer-content"><img src="${url}"></div>`;
-      } else if (mediaType === 'application/pdf') {
-        contentHtml = `<div class="artifact-viewer-content"><iframe src="${url}"></iframe></div>`;
-      } else if (mediaType.startsWith('video/')) {
-        contentHtml = `<div class="artifact-viewer-content"><video src="${url}" controls></video></div>`;
-      } else if (mediaType.startsWith('audio/')) {
-        contentHtml = `<div class="artifact-viewer-content"><audio src="${url}" controls></audio></div>`;
-      } else {
-        try {
-          const response = await fetch(url);
-          const markdown = await response.text();
-          let html = markdown
-            .replace(/^### (.+)$/gm, '<h3>$1</h3>')
-            .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-            .replace(/^# (.+)$/gm, '<h1>$1</h1>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>');
-          contentHtml = `<div class="artifact-viewer-content"><p>${html}</p></div>`;
-        } catch {
-          contentHtml = `<p><em>Could not load content.</em></p>
-            <p style="font-size:11px;color:#999">${url}</p>`;
+      // Media block
+      let mediaHtml = '';
+      let hasMedia = false;
+      if (url && mediaType.startsWith('image/')) {
+        mediaHtml = `<div class="artifact-viewer-content"><img src="${url}"></div>`;
+        hasMedia = true;
+      } else if (url && mediaType === 'application/pdf') {
+        mediaHtml = `<div class="artifact-viewer-content"><iframe src="${url}"></iframe></div>`;
+        hasMedia = true;
+      } else if (url && mediaType.startsWith('video/')) {
+        mediaHtml = `<div class="artifact-viewer-content"><video src="${url}" controls></video></div>`;
+        hasMedia = true;
+      } else if (url && mediaType.startsWith('audio/')) {
+        mediaHtml = `<div class="artifact-viewer-content"><audio src="${url}" controls></audio></div>`;
+        hasMedia = true;
+      } else if (mediaType === 'text/plain' || mediaType === 'text/markdown') {
+        if (url) {
+          try {
+            const response = await fetch(url);
+            const raw = await response.text();
+            const body = raw.replace(/^---[\s\S]*?---\n?/, '').trim();
+            let html = body
+              .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+              .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+              .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+              .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*(.+?)\*/g, '<em>$1</em>')
+              .replace(/\n\n/g, '</p><p>')
+              .replace(/\n/g, '<br>');
+            mediaHtml = `<div class="artifact-viewer-content"><p>${html}</p></div>`;
+            hasMedia = true;
+          } catch {
+            mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
+          }
+        } else {
+          mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
         }
+      } else {
+        mediaHtml = `<p class="artifact-unavailable">File not available offline.</p>`;
       }
+
+      // Metadata block — open by default when no media
+      const metaBody = renderMetadata(artifact);
+      const metaHtml = metaBody
+        ? `<details class="artifact-meta" ${hasMedia ? '' : 'open'}>
+            <summary>Details</summary>
+            ${metaBody}
+          </details>`
+        : '';
 
       body.innerHTML = `
         <button id="panel-back">← Back to list</button>
         <div class="artifact-viewer-title">${artifact.title}</div>
-        ${contentHtml}
+        ${mediaHtml}
+        ${metaHtml}
       `;
 
       document.getElementById('panel-back').addEventListener('click', () => {
